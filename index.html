@@ -75,7 +75,22 @@
   .hero p.tagline {
     color: var(--muted);
     font-size: 18px;
-    margin: 0 0 32px;
+    margin: 0 0 24px;
+  }
+  .pain-points {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 0 0 28px;
+  }
+  .pain-points .pain-tag {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--muted);
   }
   .badge {
     display: inline-flex;
@@ -162,7 +177,7 @@
   .sw-block { background: #333; border-radius: 3px; }
   .sw-1x4 .sw-block { width: 22px; height: 12px; }
   .sw-1x4 { flex-direction: column; }
-  .sw-2x2 { flex-wrap: wrap; width: 40px; }
+  .sw-2x2 { flex-wrap: wrap; width: 40px; margin: 0 auto; }
   .sw-2x2 .sw-block { width: 18px; height: 18px; }
   .sw-4x1 .sw-block { width: 12px; height: 22px; }
   .layout-swatches .swatch span.name { font-weight: 700; font-size: 13px; }
@@ -216,6 +231,14 @@
   <img class="icon" src="AppIcon-1024.png" alt="LIVE 4 CUTS 앱 아이콘">
   <h1>LIVE 4 CUTS</h1>
   <p class="tagline">아이폰 하나로 즐기는 인생네컷. 4장을 찍고, 원하는 프레임에 담아보세요.</p>
+
+  <div class="pain-points">
+    <span class="pain-tag">🍻 술 먹다가 인생네컷 찍으러 가보신 분</span>
+    <span class="pain-tag">🗑️ 인화한 사진 잃어버려 보신 분</span>
+    <span class="pain-tag">💸 매번 인화비 아까우신 분</span>
+    <span class="pain-tag">📱 사진 편하게 보관하고 싶으신 분</span>
+  </div>
+
   <span class="badge">앱스토어 출시 준비 중</span>
 
   <div class="strip-preview">
