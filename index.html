@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIVE 4 CUTS — 인생네컷 포토부스 앱</title>
+<meta name="description" content="LIVE 4 CUTS — 아이폰으로 즐기는 인생네컷 스타일 4컷 포토부스 앱. 1x4, 2x2, 4x1 프레임과 다양한 색상을 골라보세요.">
+<style>
+  :root {
+    --bg: #000;
+    --card: #0d0d0d;
+    --border: #262626;
+    --red: #ef4444;
+    --text: #f5f5f5;
+    --muted: #9a9a9a;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, "Apple SD Gothic Neo", sans-serif;
+    line-height: 1.6;
+  }
+  a { color: var(--red); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  header.nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    font-size: 18px;
+  }
+  .brand img { width: 30px; height: 30px; border-radius: 8px; display: block; }
+  nav.links { display: flex; gap: 22px; font-size: 14px; color: var(--muted); }
+  nav.links a { color: var(--muted); }
+  nav.links a:hover { color: var(--text); }
+
+  .hero {
+    text-align: center;
+    padding: 90px 24px 60px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .hero img.icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(239,68,68,0.25);
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-size: 44px;
+    font-weight: 900;
+    font-style: italic;
+    margin: 0 0 16px;
+    letter-spacing: 0.5px;
+  }
+  .hero p.tagline {
+    color: var(--muted);
+    font-size: 18px;
+    margin: 0 0 32px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    background: var(--red);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  /* 4컷 프레임 미리보기 (실제 사진 없이 CSS로 재현) */
+  .strip-preview {
+    margin: 56px auto 0;
+    width: 200px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px 14px 20px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  }
+  .strip-preview .shot {
+    background: linear-gradient(135deg, #2a2a2a, #111);
+    border-radius: 6px;
+    aspect-ratio: 4 / 3;
+    margin-bottom: 8px;
+  }
+  .strip-preview .shot:last-of-type { margin-bottom: 0; }
+  .strip-preview .label {
+    text-align: center;
+    font-weight: 900;
+    font-style: italic;
+    color: #000;
+    font-size: 13px;
+    margin-top: 14px;
+    letter-spacing: 0.5px;
+  }
+
+  section { max-width: 960px; margin: 0 auto; padding: 70px 24px; }
+  section h2 {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 10px;
+  }
+  section p.section-lead {
+    color: var(--muted);
+    margin: 0 0 40px;
+    max-width: 560px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+  }
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .feature-card .emoji { font-size: 26px; margin-bottom: 12px; display: block; }
+  .feature-card h3 { margin: 0 0 8px; font-size: 16px; }
+  .feature-card p { margin: 0; color: var(--muted); font-size: 14px; }
+
+  .layout-swatches { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 30px; }
+  .layout-swatches .swatch {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+    width: 130px;
+  }
+  .layout-swatches .swatch-visual {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    margin-bottom: 10px;
+  }
+  .sw-block { background: #333; border-radius: 3px; }
+  .sw-1x4 .sw-block { width: 22px; height: 12px; }
+  .sw-1x4 { flex-direction: column; }
+  .sw-2x2 { flex-wrap: wrap; width: 40px; }
+  .sw-2x2 .sw-block { width: 18px; height: 18px; }
+  .sw-4x1 .sw-block { width: 12px; height: 22px; }
+  .layout-swatches .swatch span.name { font-weight: 700; font-size: 13px; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 50px 24px 40px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  #privacy, #support {
+    border-top: 1px solid var(--border);
+  }
+  #privacy h3, #support h3 {
+    font-size: 16px;
+    margin: 28px 0 8px;
+    color: var(--text);
+  }
+  #privacy p, #support p, #privacy li {
+    color: var(--muted);
+    font-size: 14.5px;
+  }
+  #privacy ul { padding-left: 20px; }
+  .disclaimer {
+    margin-top: 24px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="brand">
+    <img src="AppIcon-1024.png" alt="LIVE 4 CUTS 아이콘">
+    LIVE 4 CUTS
+  </div>
+  <nav class="links">
+    <a href="#features">기능</a>
+    <a href="#support">지원</a>
+    <a href="#privacy">개인정보처리방침</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <img class="icon" src="AppIcon-1024.png" alt="LIVE 4 CUTS 앱 아이콘">
+  <h1>LIVE 4 CUTS</h1>
+  <p class="tagline">아이폰 하나로 즐기는 인생네컷. 4장을 찍고, 원하는 프레임에 담아보세요.</p>
+  <span class="badge">앱스토어 출시 준비 중</span>
+
+  <div class="strip-preview">
+    <div class="shot"></div>
+    <div class="shot"></div>
+    <div class="shot"></div>
+    <div class="shot"></div>
+    <div class="label">LIVE 4 CUTS</div>
+  </div>
+</section>
+
+<section id="features">
+  <h2>기능</h2>
+  <p class="section-lead">사진관 안 가고도 인생네컷 감성 그대로.</p>
+
+  <div class="grid">
+    <div class="feature-card">
+      <span class="emoji">📸</span>
+      <h3>0s / 3s / 5s / 10s 촬영</h3>
+      <p>원하는 간격을 골라 자동 연속 촬영하거나, 셔터를 직접 눌러 한 장씩 찍을 수 있어요.</p>
+    </div>
+    <div class="feature-card">
+      <span class="emoji">🔄</span>
+      <h3>전면 / 후면 카메라 전환</h3>
+      <p>기본 카메라 앱과 똑같은 버튼으로 언제든 전환.</p>
+    </div>
+    <div class="feature-card">
+      <span class="emoji">🎨</span>
+      <h3>다양한 프레임 색상</h3>
+      <p>기본 색상은 물론, 원하는 색을 직접 고를 수 있는 컬러 피커도 지원해요.</p>
+    </div>
+    <div class="feature-card">
+      <span class="emoji">✏️</span>
+      <h3>문구 & 날짜 스탬프</h3>
+      <p>결과물에 짧은 문구를 남기고, 촬영 날짜를 자동으로 기록해요.</p>
+    </div>
+    <div class="feature-card">
+      <span class="emoji">🖼️</span>
+      <h3>3가지 레이아웃</h3>
+      <p>1x4 세로 스트립, 2x2 격자, 4x1 가로 배치 중 골라서 나만의 4컷을 완성하세요.</p>
+    </div>
+    <div class="feature-card">
+      <span class="emoji">💾</span>
+      <h3>바로 사진첩 저장</h3>
+      <p>완성된 4컷을 아이폰 사진앱에 고화질로 바로 저장할 수 있어요.</p>
+    </div>
+  </div>
+
+  <div class="layout-swatches">
+    <div class="swatch">
+      <div class="swatch-visual sw-1x4">
+        <div class="sw-block"></div><div class="sw-block"></div><div class="sw-block"></div><div class="sw-block"></div>
+      </div>
+      <span class="name">1x4</span>
+    </div>
+    <div class="swatch">
+      <div class="swatch-visual sw-2x2">
+        <div class="sw-block"></div><div class="sw-block"></div><div class="sw-block"></div><div class="sw-block"></div>
+      </div>
+      <span class="name">2x2</span>
+    </div>
+    <div class="swatch">
+      <div class="swatch-visual sw-4x1">
+        <div class="sw-block"></div><div class="sw-block"></div><div class="sw-block"></div><div class="sw-block"></div>
+      </div>
+      <span class="name">4x1</span>
+    </div>
+  </div>
+</section>
+
+<section id="support">
+  <h2>지원 (문의하기)</h2>
+  <p class="section-lead">앱 사용 중 문제가 있거나 건의하고 싶은 내용이 있다면 아래로 연락해주세요.</p>
+  <p>이메일: <a href="mailto:cjh026425@gmail.com">cjh026425@gmail.com</a></p>
+  <p>보통 며칠 이내에 답변드리려고 노력하고 있어요.</p>
+</section>
+
+<section id="privacy">
+  <h2>개인정보처리방침</h2>
+  <p class="section-lead">최종 업데이트: 2026년 8월</p>
+
+  <h3>1. 수집하는 정보</h3>
+  <p>LIVE 4 CUTS는 회원가입이나 로그인이 필요 없는 앱입니다. 앱 자체는 사용자의 개인정보를 별도 서버에 수집하거나 저장하지 않습니다.</p>
+
+  <h3>2. 카메라 및 사진첩 접근</h3>
+  <ul>
+    <li>사진 촬영을 위해 카메라 접근 권한을 요청합니다.</li>
+    <li>완성된 4컷 이미지를 저장하기 위해 사진첩(Photos) 접근 권한을 요청합니다.</li>
+    <li>촬영한 사진과 완성된 결과물은 기기 안에서만 처리되며, 저희 서버로 전송되지 않습니다.</li>
+  </ul>
+
+  <h3>3. 광고 (Google AdMob)</h3>
+  <p>저장 기능을 이용할 때 Google AdMob을 통한 보상형(리워드) 광고가 표시됩니다. AdMob은 광고 게재 및 측정을 위해 광고 식별자 등 기술적인 정보를 수집할 수 있습니다. 이 데이터는 Google이 처리하며, 저희는 이 정보에 직접 접근하지 않습니다. 자세한 내용은 <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google 개인정보처리방침</a>을 참고해주세요.</p>
+
+  <h3>4. 아동의 개인정보</h3>
+  <p>본 앱은 만 13세 미만 아동을 대상으로 하지 않으며, 아동으로부터 고의로 개인정보를 수집하지 않습니다.</p>
+
+  <h3>5. 정책 변경</h3>
+  <p>본 개인정보처리방침은 필요에 따라 변경될 수 있으며, 변경 사항은 이 페이지에 반영됩니다.</p>
+
+  <h3>6. 문의</h3>
+  <p><a href="mailto:cjh026425@gmail.com">cjh026425@gmail.com</a>으로 연락해주세요.</p>
+
+  <div class="disclaimer">
+    이 페이지는 일반적인 안내를 위한 것으로 법률 자문이 아닙니다. 정확한 법적 검토가 필요하다면 전문가(변호사)의 확인을 받는 것을 권장합니다.
+  </div>
+</section>
+
+<footer>
+  © 2026 LIVE 4 CUTS. All rights reserved.
+</footer>
+
+</body>
+</html>
