@@ -78,14 +78,15 @@
     margin: 0 0 24px;
   }
   .pain-points {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 8px;
     margin: 0 0 28px;
   }
   .pain-points .pain-tag {
     text-align: center;
+    white-space: nowrap;
   }
   .pain-points .pain-tag {
     background: var(--card);
@@ -278,14 +279,14 @@
       <p>결과물에 짧은 문구를 남기고, 촬영 날짜를 자동으로 기록해요.</p>
     </div>
     <div class="feature-card">
-      <span class="emoji">🖼️</span>
-      <h3>3가지 레이아웃</h3>
-      <p>1x4 세로 스트립, 2x2 격자, 4x1 가로 배치 중 골라서 나만의 4컷을 완성하세요.</p>
-    </div>
-    <div class="feature-card">
       <span class="emoji">💾</span>
       <h3>바로 사진첩 저장</h3>
       <p>완성된 4컷을 아이폰 사진앱에 고화질로 바로 저장할 수 있어요.</p>
+    </div>
+    <div class="feature-card">
+      <span class="emoji">🖼️</span>
+      <h3>3가지 레이아웃</h3>
+      <p>1x4 세로 스트립, 2x2 격자, 4x1 가로 배치 중 골라서 나만의 4컷을 완성하세요.</p>
     </div>
   </div>
 
