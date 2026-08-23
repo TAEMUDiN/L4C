@@ -78,11 +78,14 @@
     margin: 0 0 24px;
   }
   .pain-points {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, auto);
     justify-content: center;
     gap: 8px;
     margin: 0 0 28px;
+  }
+  .pain-points .pain-tag {
+    text-align: left;
   }
   .pain-points .pain-tag {
     background: var(--card);
